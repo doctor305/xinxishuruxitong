@@ -19,10 +19,11 @@ def send_commit(conn,commit):
     cursor.execute(commit)
     conn.commit()
     
-def create_table(conn):
-    commit = """
-    IF OBJECT_ID('informationtable', 'U') IS NOT NULL
-    DROP TABLE informationtable
+def check_table(conn):
+    commit = "select OBJECT_ID('informationtable', 'U')"
+    result = send_select(conn,commit)
+    if result[0][0] == None:
+        commit = """
     CREATE TABLE informationtable (
     姓名 NVARCHAR(255) NOT NULL,
     性别 NVARCHAR(255),
@@ -39,7 +40,8 @@ def create_table(conn):
     备注 NVARCHAR(255)
 )
 """
-    send_commit(conn,commit)
+        send_commit(conn,commit)
+    
 
 def send_select(conn,commit):
     result = []
@@ -72,7 +74,8 @@ if __name__ == "__main__":
     password = '12345678'
     database = 'test'
     conn = connect_to_mssql(host,user,password,database)
-    #create_table(conn)
+    check_table(conn)
+    
     list_rowname = get_rowname(conn)
     print(list_rowname)
     ls = ['张三','男','19920406','410183199204060055','2','Null','Null','Null','大学','党员','Null','Null','Null']

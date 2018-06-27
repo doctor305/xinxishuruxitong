@@ -22,6 +22,7 @@ user = 'sa'
 password = '12345678'
 database = 'test'
 conn = connect_to_mssql(host,user,password,database)
+check_table(conn)
 
 def input_infor():
     global conn,display_vartext
