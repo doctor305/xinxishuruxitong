@@ -66,7 +66,7 @@ def get_rowname(conn):
 
 def insert_value(conn,ls):
     commit = "INSERT INTO informationtable VALUES (%s)" % ("'"+"','".join(ls)+"'").replace("'Null'","Null")
-    send_commit(conn,commit)
+    send_commit(conn,commit.encode('utf8'))
 
 if __name__ == "__main__":
     host = '127.0.0.1'
